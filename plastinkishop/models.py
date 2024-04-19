@@ -21,6 +21,8 @@ class Supplier(models.Model):
 
 
 class Supply(models.Model):
+    date_supply = models.DateTimeField(verbose_name='Дата поставки')
+
     supplier = models.ForeignKey(Supplier, on_delete=models.PROTECT, verbose_name='Поставщик')
     vinyl_record = models.ManyToManyField('Vinyl_record',  through='Pos_supply', verbose_name='Пластинки')
 
@@ -89,11 +91,11 @@ class Order(models.Model):
 
 
 class Pos_order(models.Model):
-    order = models.ForeignKey(Order, on_delete=models.PROTECT, verbose_name='Поставка')
+    order = models.ForeignKey(Order, on_delete=models.PROTECT, verbose_name='Заказ')
     vinyl_record = models.ForeignKey('Vinyl_record', on_delete=models.PROTECT, verbose_name='Пластинка')
 
     count = models.PositiveIntegerField(verbose_name='Кол-во пластинок')
-    discount = models.IntegerField(verbose_name='Скидки на позицию')
+    discount = models.IntegerField(default=0, verbose_name='Скидки на позицию')
 
     def __str__(self):
         return f"{self.order} {self.vinyl_record.name}"
